@@ -1,12 +1,4 @@
-# DataPulse — E-Commerce Analytics Platform
 
-![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=flat&logo=angular&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=flat&logo=springboot&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat&logo=postgresql&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.9-3776AB?style=flat&logo=python&logoColor=white)
-![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)
-![LangGraph](https://img.shields.io/badge/LangGraph-0.2-1C3C3C?style=flat&logo=langchain&logoColor=white)
 
 Full-stack e-ticaret analitik platformu. Rol tabanlı dashboard'lar, gerçek zamanlı bildirimler ve doğal dil ile veritabanı sorgulayabilen çok ajanlı bir AI chatbot içerir.
 
@@ -14,7 +6,6 @@ Full-stack e-ticaret analitik platformu. Rol tabanlı dashboard'lar, gerçek zam
 
 ## İçindekiler
 
-- [Ekran Görüntüleri](#ekran-görüntüleri)
 - [Mimari](#mimari)
 - [Özellikler](#özellikler)
 - [Teknoloji Yığını](#teknoloji-yığını)
@@ -25,8 +16,9 @@ Full-stack e-ticaret analitik platformu. Rol tabanlı dashboard'lar, gerçek zam
   - [Angular Frontend](#4-angular-frontend-port-4200)
 - [Test Hesapları](#test-hesapları)
 - [Veritabanı Tabloları](#veritabanı-tabloları)
-- [Lisans](#lisans)
+- [Ekran Görüntüleri](#ekran-görüntüleri)
 - [Geliştirici](#geliştirici)
+
 
 ---
 
@@ -195,11 +187,15 @@ Seed scriptleri çalıştırıldıktan sonra aşağıdaki hesaplarla giriş yap�
 
 ---
 
-## Lisans
+# DataPulse — E-Commerce Analytics Platform
 
-Bu proje [MIT Lisansı](https://opensource.org/licenses/MIT) ile lisanslanmıştır.
-
----
+![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=flat&logo=angular&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=flat&logo=springboot&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.9-3776AB?style=flat&logo=python&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-0.2-1C3C3C?style=flat&logo=langchain&logoColor=white)
 
 ## Geliştirici
 
