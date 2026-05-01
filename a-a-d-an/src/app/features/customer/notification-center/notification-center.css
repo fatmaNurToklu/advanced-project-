@@ -1,0 +1,218 @@
+.nc-page {
+  min-height: calc(100vh - 64px);
+  background: #080818;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* Header */
+.nc-header {
+  max-width: 760px;
+  margin: 0 auto 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nc-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nc-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: #a78bfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nc-title h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  margin: 0 0 0.15rem;
+}
+
+.unread-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #f87171;
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.25);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+}
+
+.all-read-label {
+  font-size: 0.78rem;
+  color: #34d399;
+}
+
+.btn-mark-all {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: #a78bfa;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-mark-all:hover { background: rgba(124,58,237,0.22); }
+
+/* List */
+.nc-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Item */
+.nc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: #13133a;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  transition: border-color 0.15s, transform 0.15s;
+  border-left: 3px solid rgba(255,255,255,0.08);
+}
+
+.nc-item:hover {
+  border-color: rgba(124,58,237,0.3);
+  transform: translateX(3px);
+}
+
+.nc-item.unread {
+  background: #16163e;
+  border-left-color: #7c3aed;
+}
+
+/* Type-specific accent colours */
+.nc-item.type-order_update        { border-left-color: #7c3aed; }
+.nc-item.type-shipment_update     { border-left-color: #06b6d4; }
+.nc-item.type-promotion           { border-left-color: #f59e0b; }
+.nc-item.type-system              { border-left-color: #64748b; }
+
+/* Type icon */
+.nc-type-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.type-order_update    .nc-type-icon { background: rgba(124,58,237,0.15); color: #a78bfa; }
+.type-shipment_update .nc-type-icon { background: rgba(6,182,212,0.12);  color: #22d3ee; }
+.type-promotion       .nc-type-icon { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.type-system          .nc-type-icon { background: rgba(100,116,139,0.15);color: #94a3b8; }
+
+/* Content */
+.nc-content { flex: 1; min-width: 0; }
+
+.nc-top-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.nc-type-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+}
+
+.type-order_update    .nc-type-badge { background: rgba(124,58,237,0.15); color: #a78bfa; }
+.type-shipment_update .nc-type-badge { background: rgba(6,182,212,0.12);  color: #22d3ee; }
+.type-promotion       .nc-type-badge { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.type-system          .nc-type-badge { background: rgba(100,116,139,0.15);color: #94a3b8; }
+
+.nc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7c3aed;
+  flex-shrink: 0;
+}
+
+.nc-time {
+  font-size: 0.74rem;
+  color: #4a5568;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.nc-title-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 0.25rem;
+}
+
+.nc-message {
+  font-size: 0.84rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Empty */
+.nc-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 5rem 2rem;
+  color: #4a5568;
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a5568;
+}
+
+.nc-empty p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+.nc-empty span {
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+@media (max-width: 600px) {
+  .nc-item { padding: 0.9rem 1rem; }
+}

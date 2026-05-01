@@ -1,0 +1,15 @@
+<div class="settings-wrapper">
+  <h2>Corporate Settings & Profile</h2>
+  <div class="settings-grid">
+    <section class="card">
+      <h3>Store Information</h3>
+      <form (ngSubmit)="saveStore()">
+        <div class="field"><label>Store Name</label><input [(ngModel)]="store.name" name="name" /></div>
+        <div class="field"><label>Description</label><textarea [(ngModel)]="store.description" name="description" rows="3"></textarea></div>
+        @if (saved()) { <p class="success">Changes saved successfully.</p> }
+        @if (error()) { <p class="error">{{ error() }}</p> }
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </form>
+    </section>
+  </div>
+</div>

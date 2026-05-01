@@ -1,0 +1,24 @@
+<div class="rm-wrapper">
+  <h2>Review Management</h2>
+  @for (review of reviews(); track review.reviewId) {
+    <div class="review-card">
+      <div class="review-header">
+        <strong>{{ review.userName }}</strong>
+        <div class="stars">{{ '★'.repeat(review.starRating) }}{{ '☆'.repeat(5 - review.starRating) }}</div>
+      </div>
+      <p class="review-text">{{ review.comment }}</p>
+      <div class="review-footer">
+        <span class="date">{{ review.createdAt | date:'dd MMM yyyy' }}</span>
+        <span class="badge">{{ review.sentiment }}</span>
+        <button class="btn-danger-sm" (click)="deleteReview(review.reviewId)">Delete</button>
+      </div>
+    </div>
+  } @empty {
+    <p class="empty">No reviews to moderate.</p>
+  }
+  <div class="pagination">
+    @for (p of pages(); track p) {
+      <button [class.active]="currentPage() === p" (click)="goToPage(p)">{{ p + 1 }}</button>
+    }
+  </div>
+</div>

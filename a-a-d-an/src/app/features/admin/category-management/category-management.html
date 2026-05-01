@@ -1,0 +1,87 @@
+<div class="cm-wrapper">
+  <div class="cm-header">
+    <h2>Category Management</h2>
+    <button class="btn-primary" (click)="openCreate()">+ Add Category</button>
+  </div>
+
+  @if (showForm()) {
+    <div class="cm-form-card">
+      <h3>{{ editTarget() ? 'Edit Category' : 'New Category' }}</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name</label>
+          <input [(ngModel)]="form.name" (input)="autoSlug()" placeholder="Category name" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Slug</label>
+          <input [(ngModel)]="form.slug" placeholder="category-slug" class="form-input" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Icon URL <span class="optional">(optional)</span></label>
+          <input [(ngModel)]="form.iconUrl" placeholder="https://..." class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Parent Category <span class="optional">(optional)</span></label>
+          <select [(ngModel)]="form.parentId" class="form-input">
+            <option value="">— Root category —</option>
+            @for (cat of flatList(categories()); track cat.categoryId) {
+              <option [value]="cat.categoryId">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" (click)="save()" [disabled]="!form.name || !form.slug">Save</button>
+        <button class="btn-cancel" (click)="showForm.set(false)">Cancel</button>
+      </div>
+    </div>
+  }
+
+  @if (loading()) {
+    <p class="empty">Loading...</p>
+  } @else if (categories().length === 0) {
+    <p class="empty">No categories yet. Click "Add Category" to create one.</p>
+  } @else {
+    <div class="cat-list">
+      @for (cat of categories(); track cat.categoryId) {
+        <div class="cat-card">
+          <div class="cat-header">
+            <div class="cat-info">
+              @if (cat.iconUrl) {
+                <img [src]="cat.iconUrl" class="cat-icon" alt="" />
+              } @else {
+                <div class="cat-icon-placeholder">📁</div>
+              }
+              <div>
+                <strong>{{ cat.name }}</strong>
+                <span class="cat-slug">{{ cat.slug }}</span>
+              </div>
+            </div>
+            <div class="cat-actions">
+              <button class="btn-edit" (click)="openEdit(cat)">Edit</button>
+              <button class="btn-delete" (click)="delete(cat)">Delete</button>
+            </div>
+          </div>
+
+          @if (cat.children && cat.children.length > 0) {
+            <div class="subcategories">
+              @for (child of cat.children; track child.categoryId) {
+                <div class="subcat-row">
+                  <span class="subcat-arrow">↳</span>
+                  <span class="subcat-name">{{ child.name }}</span>
+                  <span class="cat-slug">{{ child.slug }}</span>
+                  <div class="cat-actions">
+                    <button class="btn-edit" (click)="openEdit(child)">Edit</button>
+                    <button class="btn-delete" (click)="delete(child)">Delete</button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

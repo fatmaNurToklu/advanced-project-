@@ -1,0 +1,85 @@
+.dp-page { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.dp-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dp-page-title { font-size: 1.5rem; font-weight: 700; }
+.dp-page-sub   { font-size: 0.85rem; color: var(--dp-text-muted); margin-top: 2px; }
+
+.dp-input {
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-sm);
+  color: var(--dp-text);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+.dp-input:focus { border-color: var(--dp-primary); }
+.dp-input::placeholder { color: var(--dp-text-dim); }
+
+.filter-input { min-width: 220px; }
+
+.dp-card {
+  background: var(--dp-card);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius);
+  padding: 1.25rem;
+}
+
+.dp-loading { color: var(--dp-text-muted); text-align: center; padding: 3rem; }
+
+.dp-table-wrap { overflow-x: auto; }
+.dp-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+
+.dp-table th {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  color: var(--dp-text-dim);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--dp-border);
+}
+
+.dp-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid rgba(42,42,90,0.5);
+}
+
+.dp-table tr:last-child td { border-bottom: none; }
+.dp-table tr:hover td { background: rgba(124,58,237,0.04); }
+
+.action-badge {
+  display: inline-block;
+  background: var(--dp-primary-light);
+  color: var(--dp-primary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.empty-row { text-align: center; padding: 2rem; }
+
+.pagination { display: flex; justify-content: center; gap: 0.4rem; margin-top: 1.25rem; }
+
+.page-btn {
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: 6px;
+  color: var(--dp-text-muted);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.page-btn:hover { border-color: var(--dp-primary); color: var(--dp-primary); }
+.page-btn.active { background: var(--dp-primary); border-color: var(--dp-primary); color: #fff; }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }

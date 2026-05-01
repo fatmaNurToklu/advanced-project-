@@ -1,0 +1,52 @@
+<div class="dp-shell" [class.sidebar-collapsed]="!sidebarOpen()">
+  <!-- Sidebar -->
+  <aside class="dp-sidebar">
+    <div class="dp-logo">
+      <div class="dp-logo-icon">
+        <span>D</span>
+      </div>
+      <span class="dp-logo-text">DataPulse</span>
+    </div>
+
+    <nav class="dp-nav">
+      <p class="dp-nav-label">MAIN MENU</p>
+      @for (item of navItems; track item.route) {
+        <a class="dp-nav-item"
+           [routerLink]="item.route"
+           routerLinkActive="active">
+          <span class="dp-nav-icon">{{ item.icon }}</span>
+          <span class="dp-nav-text">{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="dp-nav-badge">{{ item.badge }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <button class="dp-logout" (click)="logout()">
+      <span>🚪</span>
+      <span class="dp-nav-text">Logout</span>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="dp-main">
+    <header class="dp-header">
+      <button class="dp-hamburger" (click)="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="dp-header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search..." />
+      </div>
+      <div class="dp-header-right">
+        <button class="dp-icon-btn" title="Notifications">🔔</button>
+        <div class="dp-avatar">JD</div>
+      </div>
+    </header>
+
+    <main class="dp-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

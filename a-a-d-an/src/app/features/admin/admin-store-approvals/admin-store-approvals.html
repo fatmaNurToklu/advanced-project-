@@ -1,0 +1,24 @@
+<div class="asa-wrapper">
+  <h2>Store Management</h2>
+  @for (store of stores(); track store.storeId) {
+    <div class="store-card">
+      <div class="store-info">
+        <h4>{{ store.storeName }}</h4>
+        <p>{{ store.ownerName }}</p>
+        <p class="date">{{ store.createdAt | date:'dd MMM yyyy' }}</p>
+        <span class="badge" [class]="store.status.toLowerCase()">{{ store.status }}</span>
+      </div>
+      <div class="store-actions">
+        <button class="btn-approve" (click)="setStatus(store.storeId, 'Open')">Open</button>
+        <button class="btn-reject" (click)="setStatus(store.storeId, 'Closed')">Close</button>
+      </div>
+    </div>
+  } @empty {
+    <div class="empty">No stores found.</div>
+  }
+  <div class="pagination">
+    @for (p of pages(); track p) {
+      <button [class.active]="currentPage() === p" (click)="goToPage(p)">{{ p + 1 }}</button>
+    }
+  </div>
+</div>

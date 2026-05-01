@@ -1,0 +1,138 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Products Catalog 📦</h1>
+      <p class="dp-page-sub">Manage your inventory</p>
+    </div>
+    <button class="dp-btn-primary" (click)="openAdd()">+ Add Product</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="dp-card filters-bar">
+    <select [(ngModel)]="categoryId" (change)="currentPage.set(0); loadProducts()" class="dp-select">
+      <option value="">All Categories</option>
+      @for (cat of categories(); track cat.categoryId) {
+        <option [value]="cat.categoryId">{{ cat.name }}</option>
+      }
+    </select>
+    <div class="search-box">
+      <input [(ngModel)]="keyword" (input)="currentPage.set(0); loadProducts()"
+             placeholder="Search products..." class="dp-input" />
+    </div>
+    <span class="total-badge">{{ totalElements() }} products</span>
+  </div>
+
+  <!-- Product Grid -->
+  @if (loading()) {
+    <div class="dp-loading">Loading products...</div>
+  } @else {
+    <div class="product-grid">
+      @for (p of products(); track p.productId) {
+        <div class="product-card">
+          <div class="product-img">
+            @if (p.primaryImageUrl) {
+              <img [src]="p.primaryImageUrl" [alt]="p.name" loading="lazy"/>
+            } @else {
+              <div class="product-img-placeholder">📦</div>
+            }
+            <span class="product-status" [class.active]="p.isActive" [class.inactive]="!p.isActive">
+              {{ p.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+          <div class="product-body">
+            <h4 class="product-name">{{ p.name }}</h4>
+            <span class="product-cat text-muted">{{ p.categoryName }}</span>
+            <div class="product-footer">
+              <span class="product-price">{{ p.basePrice | currency:'USD':'symbol':'1.2-2' }}</span>
+              <span class="product-stock text-muted">{{ p.quantity }} in stock</span>
+            </div>
+            @if (p.avgRating > 0) {
+              <div class="product-rating">
+                <span class="stars">★</span>
+                <span>{{ p.avgRating | number:'1.1-1' }}</span>
+                <span class="text-muted">({{ p.reviewCount }})</span>
+              </div>
+            }
+          </div>
+          <div class="product-actions">
+            <button class="dp-icon-btn2" (click)="openEdit(p)" title="Edit">✏️</button>
+            <button class="dp-icon-btn2 danger" (click)="deleteProduct(p.productId)" title="Delete">🗑️</button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <span>📦</span>
+          <p>No products found</p>
+        </div>
+      }
+    </div>
+
+    @if (totalPages() > 1) {
+      <div class="pagination">
+        <button [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)" class="page-btn">‹</button>
+        @for (p of pages(); track p) {
+          <button [class.active]="currentPage() === p" (click)="goToPage(p)" class="page-btn">{{ p + 1 }}</button>
+        }
+        <button [disabled]="currentPage() === totalPages() - 1" (click)="goToPage(currentPage() + 1)" class="page-btn">›</button>
+      </div>
+    }
+  }
+</div>
+
+<!-- Product Form Modal -->
+@if (showForm()) {
+  <div class="modal-overlay" (click)="closeForm()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editProduct() ? 'Edit Product' : 'Add Product' }}</h3>
+        <button class="modal-close" (click)="closeForm()">✕</button>
+      </div>
+      <form class="modal-form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label>Product Name</label>
+          <input [(ngModel)]="form.name" name="name" required class="dp-input" placeholder="e.g. Running Sneakers Pro"/>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="form.description" name="description" class="dp-input" rows="3"
+                    placeholder="Product description..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category</label>
+            <select [(ngModel)]="form.categoryId" name="categoryId" required class="dp-select">
+              <option value="">Select category</option>
+              @for (cat of categories(); track cat.categoryId) {
+                <option [value]="cat.categoryId">{{ cat.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>SKU</label>
+            <input [(ngModel)]="form.sku" name="sku" required class="dp-input" placeholder="SKU-001"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price ($)</label>
+            <input [(ngModel)]="form.basePrice" name="basePrice" type="number" min="0" step="0.01"
+                   required class="dp-input"/>
+          </div>
+          <div class="form-group">
+            <label>Initial Stock</label>
+            <input [(ngModel)]="form.initialStock" name="initialStock" type="number" min="0"
+                   required class="dp-input"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Low Stock Threshold</label>
+          <input [(ngModel)]="form.lowStockThreshold" name="lowStockThreshold" type="number" min="0" class="dp-input"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="dp-btn-ghost" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="dp-btn-primary">{{ editProduct() ? 'Update' : 'Create' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

@@ -1,0 +1,114 @@
+<div class="auth-wrapper">
+  <div class="auth-left">
+    <div class="auth-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">DataPulse</span>
+    </div>
+    <h2>Your smart commerce platform</h2>
+    <p>Join thousands of customers and businesses already using DataPulse to buy, sell, and grow.</p>
+    <div class="auth-features">
+      <div class="af-item">
+        <div class="af-icon">🛒</div>
+        <div><strong>Shop 50K+ Products</strong><span>From verified stores</span></div>
+      </div>
+      <div class="af-item">
+        <div class="af-icon">📊</div>
+        <div><strong>Business Analytics</strong><span>AI-powered insights</span></div>
+      </div>
+      <div class="af-item">
+        <div class="af-icon">🔒</div>
+        <div><strong>Secure & Trusted</strong><span>256-bit SSL encryption</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button [class.active]="mode() === 'login'" (click)="mode.set('login'); error.set('')">Sign In</button>
+        <button [class.active]="mode() === 'register'" (click)="mode.set('register'); error.set('')">Register</button>
+      </div>
+
+      <div class="auth-title">
+        @if (mode() === 'login') {
+          <h1>Welcome back</h1>
+          <p>Sign in to your account to continue</p>
+        } @else {
+          <h1>Create account</h1>
+          <p>Start shopping or selling today</p>
+        }
+      </div>
+
+      @if (mode() === 'register') {
+        <div class="account-type">
+          <button [class.active]="accountType() === 'CUSTOMER'" (click)="accountType.set('CUSTOMER')">
+            <span>👤</span> Customer
+          </button>
+          <button [class.active]="accountType() === 'CORPORATE'" (click)="accountType.set('CORPORATE')">
+            <span>🏢</span> Business
+          </button>
+        </div>
+      }
+
+      <form (ngSubmit)="submit()">
+        @if (mode() === 'register') {
+          <div class="field-row">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" [(ngModel)]="firstName" name="firstName" required placeholder="John" />
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" [(ngModel)]="lastName" name="lastName" required placeholder="Doe" />
+            </div>
+          </div>
+        }
+
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="email" name="email" required placeholder="you@example.com" />
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input type="password" [(ngModel)]="password" name="password" required placeholder="••••••••" />
+        </div>
+
+        @if (mode() === 'register') {
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" [(ngModel)]="phone" name="phone" placeholder="+1 555 000 0000" />
+          </div>
+
+          @if (accountType() === 'CORPORATE') {
+            <div class="field">
+              <label>Store / Business Name</label>
+              <input type="text" [(ngModel)]="storeName" name="storeName" required placeholder="My Awesome Store" />
+            </div>
+          }
+        }
+
+        @if (error()) {
+          <div class="auth-error">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {{ error() }}
+          </div>
+        }
+
+        <button type="submit" class="btn-submit" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner"></span> Please wait...
+          } @else if (mode() === 'login') {
+            Sign In
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+
+      @if (mode() === 'login') {
+        <a routerLink="/password-reset" class="forgot-link">Forgot your password?</a>
+      }
+    </div>
+  </div>
+</div>

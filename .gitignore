@@ -1,0 +1,30 @@
+# Sensitive credentials
+a-a-d-ai/.env
+
+# Raw data files - too large for git
+a-a-d-db/*.csv
+a-a-d-db/*.tsv
+a-a-d-db/*.zip
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Java / Spring Boot
+target/
+*.class
+*.jar
+
+# Node / Angular
+node_modules/
+dist/
+.angular/cache/
+
+# Claude
+.claude/

@@ -1,0 +1,178 @@
+<div class="pl-page">
+  <div class="pl-header">
+    <div>
+      <h1>Products</h1>
+      <p>Browse our full catalog from verified stores</p>
+    </div>
+    @if (totalElements() > 0) {
+      <span class="result-count">{{ totalElements() | number }} products</span>
+    }
+  </div>
+
+  <div class="pl-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Categories -->
+      <div class="sidebar-section">
+        <h3>Categories</h3>
+        <ul>
+          <li class="cat-parent" [class.active]="!selectedCategoryId()" (click)="selectCategory()">
+            <div class="cat-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              All Categories
+            </div>
+          </li>
+          @for (cat of categories(); track cat.categoryId) {
+            <li class="cat-parent"
+                [class.active]="selectedCategoryId() === cat.categoryId"
+                [class.expanded]="expandedCategoryId() === cat.categoryId"
+                (click)="selectCategory(cat.categoryId)">
+              <div class="cat-row">
+                <span class="cat-icon">{{ cat.iconUrl }}</span>
+                <span class="cat-name">{{ cat.name }}</span>
+                @if (cat.children.length) {
+                  <button class="expand-btn" (click)="toggleExpand(cat, $event)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      [style.transform]="expandedCategoryId() === cat.categoryId ? 'rotate(90deg)' : 'none'"
+                      style="transition: transform 0.2s">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </button>
+                }
+              </div>
+            </li>
+            @if (expandedCategoryId() === cat.categoryId && cat.children.length) {
+              <ul class="cat-children">
+                @for (child of cat.children; track child.categoryId) {
+                  <li [class.active]="selectedCategoryId() === child.categoryId"
+                      (click)="selectCategory(child.categoryId); $event.stopPropagation()">
+                    <span class="child-dot">·</span>{{ child.name }}
+                  </li>
+                }
+              </ul>
+            }
+          }
+        </ul>
+      </div>
+
+      <!-- Price Filter -->
+      <div class="sidebar-section">
+        <h3>Price Range</h3>
+        <div class="price-inputs">
+          <div class="price-field">
+            <label>Min (TRY)</label>
+            <input type="number" [(ngModel)]="minPrice" placeholder="0" min="0" />
+          </div>
+          <span class="price-sep">—</span>
+          <div class="price-field">
+            <label>Max (TRY)</label>
+            <input type="number" [(ngModel)]="maxPrice" placeholder="Any" min="0" />
+          </div>
+        </div>
+        <button class="btn-apply" (click)="applyFilters()">Apply</button>
+      </div>
+
+      <!-- Clear Filters -->
+      @if (hasActiveFilters()) {
+        <button class="btn-clear-all" (click)="clearFilters()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Clear All Filters
+        </button>
+      }
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <!-- Toolbar: search + sort -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" [(ngModel)]="search" placeholder="Search products..." (keyup.enter)="onSearch()" />
+        </div>
+        <button class="btn-search" (click)="onSearch()">Search</button>
+        <div class="sort-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+          <select [(ngModel)]="sortOption" (change)="onSortChange()">
+            @for (opt of sortOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Active filter chips -->
+      @if (hasActiveFilters()) {
+        <div class="filter-chips">
+          @if (selectedCategoryId()) {
+            <span class="chip">
+              Category filter active
+              <button (click)="selectCategory()">×</button>
+            </span>
+          }
+          @if (minPrice || maxPrice) {
+            <span class="chip">
+              TRY{{ minPrice || '0' }} — {{ maxPrice ? 'TRY' + maxPrice : 'Any' }}
+              <button (click)="minPrice = ''; maxPrice = ''; applyFilters()">×</button>
+            </span>
+          }
+          @if (sortOption !== 'name-asc') {
+            <span class="chip">
+              {{ getSortLabel() }}
+              <button (click)="sortOption = 'name-asc'; onSortChange()">×</button>
+            </span>
+          }
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="product-grid">
+          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+            <div class="product-card skeleton">
+              <div class="product-img sk-img"></div>
+              <div class="product-body">
+                <div class="sk-line"></div>
+                <div class="sk-line short"></div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="product-grid">
+          @for (product of products(); track product.productId) {
+            <a [routerLink]="['/products', product.productId]" class="product-card">
+              <div class="product-img">
+                <img [src]="product.primaryImageUrl || 'assets/placeholder.png'" [alt]="product.name" loading="lazy" />
+                <div class="product-overlay">
+                  <span class="overlay-btn">View Details</span>
+                </div>
+              </div>
+              <div class="product-body">
+                <h4>{{ product.name }}</h4>
+                <div class="product-footer">
+                  <span class="price">{{ product.basePrice | currency:'TRY':'symbol':'1.2-2' }}</span>
+                  <span class="add-hint">+</span>
+                </div>
+              </div>
+            </a>
+          } @empty {
+            <div class="empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4a4a8a" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <p>No products found</p>
+              <button (click)="clearFilters()">Clear all filters</button>
+            </div>
+          }
+        </div>
+
+        @if (totalPages() > 1) {
+          <div class="pagination">
+            <button class="page-btn" [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)">‹</button>
+            @for (page of pages(); track page) {
+              <button class="page-btn" [class.active]="currentPage() === page" (click)="goToPage(page)">{{ page + 1 }}</button>
+            }
+            <button class="page-btn" [disabled]="currentPage() === totalPages() - 1" (click)="goToPage(currentPage() + 1)">›</button>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

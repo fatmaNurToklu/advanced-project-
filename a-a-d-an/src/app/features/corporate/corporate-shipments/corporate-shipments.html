@@ -1,0 +1,130 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Shipments Tracking 🚚</h1>
+      <p class="dp-page-sub">Monitor all shipments in real time</p>
+    </div>
+    <button class="dp-btn-primary" (click)="openForm()">+ Create Shipment</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card purple">
+      <span class="stat-value">{{ stats.pending }}</span>
+      <span class="stat-label">Pending</span>
+    </div>
+    <div class="stat-card orange">
+      <span class="stat-value">{{ stats.inTransit }}</span>
+      <span class="stat-label">In Transit</span>
+    </div>
+    <div class="stat-card teal">
+      <span class="stat-value">{{ stats.delivered }}</span>
+      <span class="stat-label">Delivered</span>
+    </div>
+    <div class="stat-card red">
+      <span class="stat-value">{{ stats.returned }}</span>
+      <span class="stat-label">Returns</span>
+    </div>
+  </div>
+
+  <!-- Orders Ready to Ship -->
+  <div class="dp-card">
+    <div class="card-header">
+      <h3 class="card-title">Orders Ready to Ship</h3>
+    </div>
+    @if (loading()) {
+      <div class="dp-loading">Loading...</div>
+    } @else {
+      <div class="dp-table-wrap">
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Tracking ID</th>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Carrier</th>
+              <th>Destination</th>
+              <th>Status</th>
+              <th>ETA</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of orders(); track order.orderId) {
+              <tr>
+                <td class="tracking-id">
+                  @if (order.shipment?.trackingNumber) {
+                    {{ order.shipment?.trackingNumber }}
+                  } @else {
+                    <span class="text-muted">—</span>
+                  }
+                </td>
+                <td class="order-id">#{{ order.orderNumber }}</td>
+                <td class="text-muted">{{ order.storeName }}</td>
+                <td class="text-muted">{{ order.shipment?.carrierName ?? '—' }}</td>
+                <td class="text-muted">—</td>
+                <td><span [class]="badgeClass(order.shipment?.shippingStatus ?? order.status)">{{ order.shipment?.shippingStatus ?? order.status }}</span></td>
+                <td class="text-muted">{{ (order.shipment?.estimatedDelivery | date:'MMM d') ?? '—' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="7" class="empty-row text-muted">No confirmed orders to ship</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Create Shipment Modal -->
+@if (showForm()) {
+  <div class="modal-overlay" (click)="closeForm()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Create Shipment</h3>
+        <button class="modal-close" (click)="closeForm()">✕</button>
+      </div>
+      <form class="modal-form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label>Order ID</label>
+          <select [(ngModel)]="form.orderId" name="orderId" required class="dp-select" style="width:100%">
+            <option value="">Select order</option>
+            @for (o of orders(); track o.orderId) {
+              <option [value]="o.orderId">#{{ o.orderNumber }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tracking Number</label>
+          <input [(ngModel)]="form.trackingNumber" name="tracking" required class="dp-input" placeholder="TRK-000001"/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Carrier</label>
+            <select [(ngModel)]="form.carrierName" name="carrier" class="dp-select" style="width:100%">
+              <option>FedEx</option>
+              <option>UPS</option>
+              <option>DHL</option>
+              <option>USPS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mode</label>
+            <select [(ngModel)]="form.modeOfShipment" name="mode" class="dp-select" style="width:100%">
+              <option value="GROUND">Ground</option>
+              <option value="AIR">Air</option>
+              <option value="SEA">Sea</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Estimated Delivery</label>
+          <input [(ngModel)]="form.estimatedDelivery" name="eta" type="date" required class="dp-input"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="dp-btn-ghost" (click)="closeForm()">Cancel</button>
+          <button type="submit" class="dp-btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

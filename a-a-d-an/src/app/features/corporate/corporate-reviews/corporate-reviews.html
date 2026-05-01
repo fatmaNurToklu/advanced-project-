@@ -1,0 +1,75 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Reviews ⭐</h1>
+      <p class="dp-page-sub">Manage and respond to customer reviews</p>
+    </div>
+  </div>
+
+  <div class="dp-card">
+    @if (loading()) {
+      <div class="dp-loading">Loading reviews...</div>
+    } @else {
+      <div class="reviews-list">
+        @for (r of reviews(); track r.reviewId) {
+          <div class="review-item">
+            <div class="review-header">
+              <div class="reviewer-info">
+                <div class="reviewer-avatar">{{ r.userName[0] }}</div>
+                <div>
+                  <div class="reviewer-name fw-600">{{ r.userName }}</div>
+                  <div class="stars">{{ stars(r.starRating) }}</div>
+                </div>
+              </div>
+              <div class="review-meta">
+                <span class="dp-badge" [class]="sentimentClass(r.sentiment)">{{ r.sentiment }}</span>
+                <span class="text-muted" style="font-size:0.78rem">{{ r.createdAt | date:'dd MMM yyyy' }}</span>
+                @if (r.isVerifiedPurchase) {
+                  <span class="verified">✓ Verified</span>
+                }
+              </div>
+            </div>
+            <p class="review-comment">{{ r.comment }}</p>
+            <div class="review-footer">
+              <span class="text-muted" style="font-size:0.8rem">👍 {{ r.helpfulVotes }} helpful</span>
+              <button class="reply-btn" (click)="openReply(r)">Reply</button>
+            </div>
+          </div>
+        } @empty {
+          <p class="empty-state text-muted">No reviews yet</p>
+        }
+      </div>
+
+      @if (totalPages() > 1) {
+        <div class="pagination">
+          <button [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)" class="page-btn">‹</button>
+          @for (p of pages(); track p) {
+            <button [class.active]="currentPage() === p" (click)="goToPage(p)" class="page-btn">{{ p + 1 }}</button>
+          }
+          <button [disabled]="currentPage() === totalPages() - 1" (click)="goToPage(currentPage() + 1)" class="page-btn">›</button>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<!-- Reply Modal -->
+@if (replyTarget()) {
+  <div class="modal-overlay" (click)="closeReply()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Reply to Review</h3>
+        <button class="modal-close" (click)="closeReply()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="original-review">"{{ replyTarget()!.comment }}"</p>
+        <textarea [(ngModel)]="replyText" class="dp-input" rows="4"
+                  placeholder="Write your response..."></textarea>
+        <div class="modal-footer">
+          <button class="dp-btn-ghost" (click)="closeReply()">Cancel</button>
+          <button class="dp-btn-primary" (click)="sendReply()" [disabled]="!replyText.trim()">Send Reply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

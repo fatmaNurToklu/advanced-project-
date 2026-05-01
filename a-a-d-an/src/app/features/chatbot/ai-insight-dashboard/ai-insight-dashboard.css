@@ -1,0 +1,138 @@
+.insights-wrapper {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.insights-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.insights-header h2 {
+  font-size: 1.8rem;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.insights-header p {
+  color: #777;
+  font-size: 1rem;
+}
+
+.ask-section {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(67,97,238,0.12);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.ask-section h3 {
+  font-size: 1.1rem;
+  color: #1a1a2e;
+  margin-bottom: 1rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-row input:focus { border-color: #4361ee; }
+
+.btn-ask {
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-ask:hover { background: #3451d1; }
+.btn-ask:disabled { background: #a0aec0; cursor: not-allowed; }
+
+.answer-box {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  background: #f8f9fe;
+  border-radius: 10px;
+  border-left: 4px solid #4361ee;
+  font-size: 0.93rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.insight-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  padding: 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.insight-icon { font-size: 1.8rem; }
+
+.insight-card h4 {
+  font-size: 1rem;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.insight-card p {
+  font-size: 0.87rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.confidence-bar {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4361ee, #7b2ff7);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.confidence-label {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+  font-size: 0.95rem;
+  grid-column: 1 / -1;
+}

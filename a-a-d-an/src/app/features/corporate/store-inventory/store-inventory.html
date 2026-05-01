@@ -1,0 +1,27 @@
+<div class="inv-wrapper">
+  <div class="inv-header">
+    <h2>Store Inventory</h2>
+  </div>
+  <table class="inv-table">
+    <thead>
+      <tr><th>Product</th><th>Quantity</th><th>Bin</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      @for (p of inventory(); track p.inventoryId) {
+        <tr>
+          <td>{{ p.productName }}</td>
+          <td [class.low]="p.isLowStock">{{ p.quantity }}</td>
+          <td>{{ p.binLocation }}</td>
+          <td><span class="badge" [class]="p.status.toLowerCase()">{{ p.status }}</span></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="4" class="empty">No inventory found.</td></tr>
+      }
+    </tbody>
+  </table>
+  <div class="pagination">
+    @for (p of pages(); track p) {
+      <button [class.active]="currentPage() === p" (click)="goToPage(p)">{{ p + 1 }}</button>
+    }
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="faq-wrapper">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    @for (item of faqs; track item.q) {
+      <div class="faq-item" [class.open]="openIndex() === $index" (click)="toggle($index)">
+        <div class="faq-q">
+          <span>{{ item.q }}</span>
+          <span class="chevron">{{ openIndex() === $index ? '▲' : '▼' }}</span>
+        </div>
+        @if (openIndex() === $index) {
+          <div class="faq-a">{{ item.a }}</div>
+        }
+      </div>
+    }
+  </div>
+</div>

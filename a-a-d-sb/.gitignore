@@ -1,0 +1,23 @@
+# Maven
+target/
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build
+.gradle/
+build/
+dist/
+
+# Logs
+*.log
+logs/

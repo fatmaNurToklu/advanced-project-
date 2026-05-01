@@ -1,0 +1,124 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Analytics Dashboard 📊</h1>
+      <p class="dp-page-sub">Deep insights into your store performance</p>
+    </div>
+    <select [(ngModel)]="period" (change)="loadData()" class="dp-select">
+      <option value="DAILY">Daily</option>
+      <option value="WEEKLY">Weekly</option>
+      <option value="MONTHLY">Monthly</option>
+      <option value="YEARLY">Yearly</option>
+    </select>
+  </div>
+
+  @if (loading()) {
+    <div class="dp-loading">Loading analytics...</div>
+  } @else if (revenue()) {
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Monthly Revenue</span>
+        <span class="kpi-value teal">{{ revenue()!.periodRevenue | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Conversion Rate</span>
+        <span class="kpi-value orange">3.2%</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Avg Order Value</span>
+        <span class="kpi-value purple">{{ revenue()!.avgOrderValue | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Total Orders</span>
+        <span class="kpi-value pink">{{ revenue()!.totalOrders }}</span>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <!-- Monthly Revenue Bar Chart -->
+      <div class="dp-card">
+        <div class="card-header">
+          <h3 class="card-title">Sales Trends</h3>
+          <span class="text-muted" style="font-size:0.8rem">Last 6 months</span>
+        </div>
+        <div class="bar-chart">
+          @for (key of monthKeys(); track key) {
+            <div class="bar-col">
+              <div class="bar-wrap">
+                <div class="bar teal" [style.height.px]="monthBarHeight(key)"></div>
+              </div>
+              <span class="bar-label">{{ key | slice:5:7 }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Category Donut -->
+      <div class="dp-card">
+        <div class="card-header">
+          <h3 class="card-title">Categories</h3>
+        </div>
+        <div class="category-list">
+          @for (key of categoryKeys(); track key; let i = $index) {
+            <div class="cat-item">
+              <div class="cat-dot" [class]="segmentColors[i % 5]"></div>
+              <span class="cat-name">{{ key }}</span>
+              <span class="cat-value">{{ revenue()!.revenueByCategory[key] | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+          } @empty {
+            <p class="text-muted" style="font-size:0.85rem">No category data</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Segments -->
+    @if (segments().length > 0) {
+      <div class="dp-card">
+        <div class="card-header">
+          <h3 class="card-title">Customer Segments</h3>
+        </div>
+        <div class="dp-table-wrap">
+          <table class="dp-table">
+            <thead>
+              <tr>
+                <th>Segment</th>
+                <th>Customers</th>
+                <th>Revenue</th>
+                <th>Avg Order</th>
+                <th>Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (seg of segments(); track seg.segment; let i = $index) {
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:0.5rem">
+                      <div class="seg-dot" [class]="segmentColors[i % 5]"></div>
+                      {{ seg.segment }}
+                    </div>
+                  </td>
+                  <td class="text-muted">{{ seg.count }}</td>
+                  <td class="fw-600">{{ seg.revenue | currency:'USD':'symbol':'1.0-0' }}</td>
+                  <td class="text-muted">{{ seg.avgOrderValue | currency:'USD':'symbol':'1.2-2' }}</td>
+                  <td>
+                    <div class="seg-bar-bg">
+                      <div class="seg-bar" [class]="segmentColors[i % 5]" [style.width.%]="seg.percentage"></div>
+                    </div>
+                    <span style="font-size:0.8rem;color:var(--dp-text-muted)">{{ seg.percentage | number:'1.0-0' }}%</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="dp-card">
+      <p class="text-muted" style="text-align:center;padding:3rem">No analytics data available</p>
+    </div>
+  }
+</div>

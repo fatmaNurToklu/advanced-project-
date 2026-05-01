@@ -1,0 +1,60 @@
+<div class="admin-wrapper">
+  <h2>Admin Panel</h2>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h4>Total Users</h4>
+      <p class="value">{{ dashboard()?.totalUsers ?? 0 }}</p>
+    </div>
+    <div class="stat-card">
+      <h4>Total Orders</h4>
+      <p class="value">{{ dashboard()?.totalOrders ?? 0 }}</p>
+    </div>
+    <div class="stat-card">
+      <h4>Total Stores</h4>
+      <p class="value warn">{{ dashboard()?.totalStores ?? 0 }}</p>
+    </div>
+    <div class="stat-card">
+      <h4>Platform Revenue</h4>
+      <p class="value">{{ dashboard()?.platformRevenue ?? 0 | currency:'TRY':'symbol':'1.0-0' }}</p>
+    </div>
+  </div>
+
+  <div class="nav-grid">
+    <a routerLink="/admin/users" class="nav-card">
+      <span class="icon">👥</span>
+      <h4>User Management</h4>
+      <p>View and manage all users</p>
+    </a>
+    <a routerLink="/admin/store-approvals" class="nav-card">
+      <span class="icon">🏪</span>
+      <h4>Store Management</h4>
+      <p>Manage store statuses</p>
+    </a>
+    <a routerLink="/admin/reviews" class="nav-card">
+      <span class="icon">⭐</span>
+      <h4>Review Management</h4>
+      <p>Moderate product reviews</p>
+    </a>
+    <a routerLink="/admin/revenue" class="nav-card">
+      <span class="icon">📊</span>
+      <h4>Revenue Analytics</h4>
+      <p>Platform revenue reports</p>
+    </a>
+    <a routerLink="/admin/audit-logs" class="nav-card">
+      <span class="icon">📋</span>
+      <h4>Audit Logs</h4>
+      <p>System activity history</p>
+    </a>
+    <a routerLink="/admin/system" class="nav-card">
+      <span class="icon">⚙️</span>
+      <h4>System Config</h4>
+      <p>Platform configuration</p>
+    </a>
+    <a routerLink="/admin/categories" class="nav-card">
+      <span class="icon">🗂️</span>
+      <h4>Categories</h4>
+      <p>Manage product categories</p>
+    </a>
+  </div>
+</div>

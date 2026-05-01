@@ -1,0 +1,91 @@
+<div class="oh-page">
+  <div class="oh-header">
+    <div>
+      <h1>My Orders</h1>
+      <p>Track and review all your purchases</p>
+    </div>
+    <div class="export-wrap">
+      <button class="btn-export" (click)="exportMenuOpen.set(!exportMenuOpen())">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      @if (exportMenuOpen()) {
+        <div class="export-menu">
+          <button (click)="exportCsv()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Download CSV
+          </button>
+          <button (click)="exportJson()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="10" y1="13" x2="8" y2="13"/><line x1="10" y1="17" x2="8" y2="17"/></svg>
+            Download JSON
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading orders...</p>
+    </div>
+  } @else {
+    @for (order of orders(); track order.orderId) {
+      <div class="order-card">
+        <div class="order-header">
+          <div class="order-meta">
+            <span class="order-num">#{{ order.orderNumber }}</span>
+            <span class="order-date">{{ order.orderDate | date:'dd MMM yyyy, HH:mm' }}</span>
+          </div>
+          <div class="order-right">
+            <span class="status-badge" [class]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
+          </div>
+        </div>
+
+        <div class="order-items">
+          @for (item of order.items; track item.orderItemId) {
+            <div class="order-item">
+              <span class="item-name">{{ item.productName }}</span>
+              <span class="item-qty text-muted">×{{ item.quantity }}</span>
+              <span class="item-price">{{ item.totalItemPrice | currency:'TRY':'symbol':'1.2-2' }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="order-footer">
+          <div class="footer-left">
+            @if (order.shipment) {
+              <span class="tracking">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {{ order.shipment.trackingNumber }} · {{ order.shipment.carrierName }}
+              </span>
+            }
+            @if (order.payment) {
+              <span class="payment-status" [class.paid]="order.payment.paymentStatus === 'PAID'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                {{ order.payment.paymentStatus }}
+              </span>
+            }
+          </div>
+          <span class="order-total">{{ order.totalAmount | currency:'TRY':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2a2a5a" stroke-width="1.5"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        <h3>No orders yet</h3>
+        <p>When you place orders, they'll appear here.</p>
+        <a routerLink="/products" class="btn-shop">Start Shopping</a>
+      </div>
+    }
+
+    <div class="pagination">
+      <button class="page-btn" [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)">‹</button>
+      @for (page of pages(); track page) {
+        <button class="page-btn" [class.active]="currentPage() === page" (click)="goToPage(page)">{{ page + 1 }}</button>
+      }
+      <button class="page-btn" [disabled]="currentPage() === totalPages() - 1" (click)="goToPage(currentPage() + 1)">›</button>
+    </div>
+  }
+</div>

@@ -1,0 +1,110 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Customer Management 👥</h1>
+      <p class="dp-page-sub">View and manage your customers</p>
+    </div>
+    <button class="dp-btn-primary">+ Add Customer</button>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon purple">👥</div>
+      <div class="kpi-body">
+        <span class="kpi-label">Total Customers</span>
+        <span class="kpi-value">{{ stats.total | number }}</span>
+      </div>
+      <span class="kpi-change up">+10.60%</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon teal">📅</div>
+      <div class="kpi-body">
+        <span class="kpi-label">New This Month</span>
+        <span class="kpi-value">{{ stats.newThisMonth }}</span>
+      </div>
+      <span class="kpi-change up">+14.79%</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon orange">👑</div>
+      <div class="kpi-body">
+        <span class="kpi-label">Gold Members</span>
+        <span class="kpi-value">{{ stats.goldMembers }}</span>
+      </div>
+      <span class="kpi-change up">+5.30%</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon pink">💰</div>
+      <div class="kpi-body">
+        <span class="kpi-label">Avg. LTV</span>
+        <span class="kpi-value">{{ stats.avgLtv | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <span class="kpi-change down">-9.30%</span>
+    </div>
+  </div>
+
+  <!-- Customer Table -->
+  <div class="dp-card">
+    <div class="card-header">
+      <h3 class="card-title">Customers</h3>
+    </div>
+    <div class="dp-table-wrap">
+      <table class="dp-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Membership</th>
+            <th>Total Spend</th>
+            <th>Orders</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of customers; track c.email) {
+            <tr>
+              <td>
+                <div class="customer-cell">
+                  <div class="cust-avatar">{{ c.name[0] }}</div>
+                  <div>
+                    <div class="fw-600">{{ c.name }}</div>
+                    <div class="text-muted" style="font-size:0.78rem">{{ c.email }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="dp-badge" [class]="membershipClass(c.membership)">
+                  {{ c.membership }}
+                </span>
+              </td>
+              <td class="fw-600">{{ c.totalSpend | currency:'USD':'symbol':'1.2-2' }}</td>
+              <td class="text-muted">{{ c.orders }}</td>
+              <td>
+                <span class="status-dot" [class.online]="c.status === 'active'" [class.offline]="c.status !== 'active'">
+                  {{ c.status === 'active' ? '● Online' : '● Offline' }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Segments -->
+  @if (segments().length > 0) {
+    <div class="dp-card">
+      <div class="card-header">
+        <h3 class="card-title">Customer Segments</h3>
+      </div>
+      <div class="segments-grid">
+        @for (seg of segments(); track seg.segment; let i = $index) {
+          <div class="segment-card" [class]="'seg-' + (i % 5)">
+            <span class="seg-name">{{ seg.segment }}</span>
+            <span class="seg-count">{{ seg.count }}</span>
+            <span class="seg-pct text-muted">{{ seg.percentage | number:'1.0-0' }}% of total</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

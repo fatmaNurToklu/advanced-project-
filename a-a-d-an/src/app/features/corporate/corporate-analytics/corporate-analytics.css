@@ -1,0 +1,181 @@
+.dp-page { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.dp-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dp-page-title { font-size: 1.5rem; font-weight: 700; }
+.dp-page-sub   { font-size: 0.85rem; color: var(--dp-text-muted); margin-top: 2px; }
+
+.dp-select {
+  background: var(--dp-surface);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius-sm);
+  color: var(--dp-text);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.dp-loading { color: var(--dp-text-muted); text-align: center; padding: 3rem; }
+
+/* KPI */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.kpi-card {
+  background: var(--dp-card);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kpi-label { font-size: 0.78rem; color: var(--dp-text-muted); font-weight: 500; }
+.kpi-value { font-size: 1.6rem; font-weight: 800; }
+.kpi-value.teal   { color: var(--dp-teal); }
+.kpi-value.orange { color: var(--dp-orange); }
+.kpi-value.purple { color: var(--dp-primary); }
+.kpi-value.pink   { color: var(--dp-pink); }
+
+/* Charts */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) { .charts-row { grid-template-columns: 1fr; } }
+
+.dp-card {
+  background: var(--dp-card);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius);
+  padding: 1.25rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.card-title { font-size: 0.95rem; font-weight: 700; }
+
+/* Bar Chart */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  height: 150px;
+  padding-bottom: 1.5rem;
+  position: relative;
+}
+
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; flex: 1; }
+.bar-wrap { flex: 1; display: flex; align-items: flex-end; width: 100%; }
+
+.bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease;
+  min-height: 4px;
+}
+
+.bar.teal { background: linear-gradient(to top, var(--dp-teal), rgba(20,184,166,0.4)); }
+
+.bar-label { font-size: 0.72rem; color: var(--dp-text-dim); }
+
+/* Category list */
+.category-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.cat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-dot.teal   { background: var(--dp-teal); }
+.cat-dot.purple { background: var(--dp-primary); }
+.cat-dot.orange { background: var(--dp-orange); }
+.cat-dot.pink   { background: var(--dp-pink); }
+.cat-dot.green  { background: var(--dp-green); }
+
+.cat-name { flex: 1; color: var(--dp-text-muted); }
+.cat-value { font-weight: 600; }
+
+/* Segment table */
+.dp-table-wrap { overflow-x: auto; }
+
+.dp-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+
+.dp-table th {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  color: var(--dp-text-dim);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--dp-border);
+}
+
+.dp-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid rgba(42,42,90,0.5);
+}
+
+.dp-table tr:last-child td { border-bottom: none; }
+
+.seg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.seg-dot.teal   { background: var(--dp-teal); }
+.seg-dot.purple { background: var(--dp-primary); }
+.seg-dot.orange { background: var(--dp-orange); }
+.seg-dot.pink   { background: var(--dp-pink); }
+.seg-dot.green  { background: var(--dp-green); }
+
+.seg-bar-bg {
+  height: 5px;
+  background: var(--dp-border);
+  border-radius: 3px;
+  margin-bottom: 3px;
+  overflow: hidden;
+  width: 80px;
+}
+
+.seg-bar {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.seg-bar.teal   { background: var(--dp-teal); }
+.seg-bar.purple { background: var(--dp-primary); }
+.seg-bar.orange { background: var(--dp-orange); }
+.seg-bar.pink   { background: var(--dp-pink); }
+.seg-bar.green  { background: var(--dp-green); }

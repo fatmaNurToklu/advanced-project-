@@ -1,0 +1,29 @@
+<div class="aid-wrapper">
+  <h2>AI Insight Dashboard</h2>
+  <div class="sessions-list">
+    @for (s of sessions(); track s.sessionId) {
+      <div class="session-item" [class.active]="activeSessionId() === s.sessionId" (click)="activeSessionId.set(s.sessionId)">
+        <span>{{ s.title }}</span>
+        <span class="msg-count">{{ s.messageCount }} msgs</span>
+      </div>
+    } @empty {
+      <p class="empty">No sessions yet.</p>
+    }
+    <button class="btn-new" (click)="createSession()">+ New Session</button>
+  </div>
+  <div class="ask-section">
+    <h3>Ask AI</h3>
+    <form (ngSubmit)="askAI()">
+      <input [(ngModel)]="question" name="question" placeholder="e.g. Which products have the highest return rate?" />
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Analyzing...' : 'Analyze' }}</button>
+    </form>
+    @if (answer()) {
+      <div class="answer">
+        <p>{{ answer() }}</p>
+        @if (sqlQuery()) {
+          <pre class="sql">{{ sqlQuery() }}</pre>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="dp-page">
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Orders Management 🛒</h1>
+      <p class="dp-page-sub">Track and manage all orders</p>
+    </div>
+    <button class="dp-btn-primary" (click)="createShipment('')">+ Create Shipment</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="dp-card filters-bar">
+    <select [(ngModel)]="statusFilter" (change)="currentPage.set(0); loadOrders()" class="dp-select">
+      <option value="">All Status</option>
+      <option>PENDING</option>
+      <option>CONFIRMED</option>
+      <option>SHIPPED</option>
+      <option>DELIVERED</option>
+      <option>CANCELLED</option>
+    </select>
+    <span class="total-badge">{{ totalElements() }} orders</span>
+  </div>
+
+  <!-- Table -->
+  <div class="dp-card">
+    @if (loading()) {
+      <div class="dp-loading">Loading orders...</div>
+    } @else {
+      <div class="dp-table-wrap">
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of orders(); track order.orderId) {
+              <tr>
+                <td class="order-id">#{{ order.orderNumber }}</td>
+                <td class="text-muted">{{ order.storeName }}</td>
+                <td class="text-muted">{{ order.items ? order.items.length : 0 }} items</td>
+                <td class="fw-600">{{ order.totalAmount | currency:'USD':'symbol':'1.2-2' }}</td>
+                <td class="text-muted">{{ order.orderDate | date:'dd MMM yyyy' }}</td>
+                <td><span [class]="badgeClass(order.status)">{{ order.status }}</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="dp-icon-btn2" title="View" (click)="openOrder(order)">👁</button>
+                    @if (order.status === 'CONFIRMED') {
+                      <button class="dp-icon-btn2 ship" title="Ship" (click)="createShipment(order.orderId)">🚚</button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td colspan="7" class="empty-row text-muted">No orders found</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      @if (totalPages() > 1) {
+        <div class="pagination">
+          <button [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)" class="page-btn">‹</button>
+          @for (p of pages(); track p) {
+            <button [class.active]="currentPage() === p" (click)="goToPage(p)" class="page-btn">{{ p + 1 }}</button>
+          }
+          <button [disabled]="currentPage() === totalPages() - 1" (click)="goToPage(currentPage() + 1)" class="page-btn">›</button>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+@if (selectedOrder()) {
+  <div class="modal-overlay" (click)="closeOrder()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Order #{{ selectedOrder()!.orderNumber }}</h3>
+        <button class="modal-close" (click)="closeOrder()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row">
+          <span class="text-muted">Status</span>
+          <span [class]="badgeClass(selectedOrder()!.status)">{{ selectedOrder()!.status }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="text-muted">Total</span>
+          <span class="fw-600">{{ selectedOrder()!.totalAmount | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="text-muted">Date</span>
+          <span>{{ selectedOrder()!.orderDate | date:'dd MMM yyyy, HH:mm' }}</span>
+        </div>
+        @if (selectedOrder()!.shipment) {
+          <div class="detail-row">
+            <span class="text-muted">Tracking</span>
+            <span class="text-teal">{{ selectedOrder()!.shipment?.trackingNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="text-muted">Carrier</span>
+            <span>{{ selectedOrder()!.shipment?.carrierName }}</span>
+          </div>
+        }
+        <h4 class="items-title">Items</h4>
+        @for (item of selectedOrder()!.items; track item.orderItemId) {
+          <div class="order-item-row">
+            <span>{{ item.productName }}</span>
+            <span class="text-muted">x{{ item.quantity }}</span>
+            <span class="fw-600">{{ item.totalItemPrice | currency:'USD':'symbol':'1.2-2' }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

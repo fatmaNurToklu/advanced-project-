@@ -1,0 +1,204 @@
+<div class="dp-page">
+  <!-- Page Header -->
+  <div class="dp-page-header">
+    <div>
+      <h1 class="dp-page-title">Welcome back! 👋</h1>
+      <p class="dp-page-sub">Here's what's happening with your store today</p>
+    </div>
+    <div class="export-wrap">
+      <button class="dp-btn-primary" (click)="exportMenuOpen.set(!exportMenuOpen())">
+        <span>📤</span> Export Report
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      @if (exportMenuOpen()) {
+        <div class="export-menu">
+          <button (click)="exportCsv()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Download CSV
+          </button>
+          <button (click)="exportJson()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Download JSON
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="dp-loading">Loading dashboard...</div>
+  } @else {
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon teal">💰</div>
+        <div class="kpi-body">
+          <span class="kpi-label">Total Revenue</span>
+          <span class="kpi-value">{{ dashboard()?.totalRevenue ?? 0 | currency:'USD':'symbol':'1.0-0' }}</span>
+        </div>
+        <span class="kpi-badge up">+10.05%</span>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon orange">🛒</div>
+        <div class="kpi-body">
+          <span class="kpi-label">Total Orders</span>
+          <span class="kpi-value">{{ (dashboard()?.totalOrders ?? 0) | number }}</span>
+        </div>
+        <span class="kpi-badge up">+8.25%</span>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon purple">📦</div>
+        <div class="kpi-body">
+          <span class="kpi-label">Products</span>
+          <span class="kpi-value">{{ dashboard()?.totalProducts ?? 0 }}</span>
+        </div>
+        <span class="kpi-badge down">-4.35%</span>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon pink">⭐</div>
+        <div class="kpi-body">
+          <span class="kpi-label">Avg Rating</span>
+          <span class="kpi-value">{{ (dashboard()?.avgRating ?? 0) | number:'1.1-1' }}</span>
+        </div>
+        <span class="kpi-badge up">+2.15%</span>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <!-- Revenue Chart -->
+      <div class="dp-card chart-card">
+        <div class="card-header">
+          <h3 class="card-title">Revenue Overview</h3>
+          <div class="chart-legend">
+            <span class="legend-dot teal"></span>
+            <span class="text-muted">Weekly Revenue</span>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <svg viewBox="0 -10 600 190" class="revenue-chart" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            @for (y of [0, 40, 80, 120, 160]; track y) {
+              <line x1="0" [attr.y1]="y" x2="600" [attr.y2]="y"
+                    stroke="#2a2a5a" stroke-width="1"/>
+            }
+            <!-- Area fill -->
+            <path [attr.d]="chartArea()" fill="url(#areaGrad)"/>
+            <!-- Line -->
+            <path [attr.d]="chartPath()" fill="none" stroke="#14b8a6" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Dots -->
+            @for (dot of chartDots(); track $index) {
+              <circle [attr.cx]="dot.x" [attr.cy]="dot.y" r="4"
+                      fill="#14b8a6" stroke="#0f0f2a" stroke-width="2"/>
+            }
+          </svg>
+          <!-- X-axis labels -->
+          <div class="x-labels">
+            @for (day of weekdays; track day) {
+              <span>{{ day }}</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Status -->
+      <div class="dp-card status-card">
+        <div class="card-header">
+          <h3 class="card-title">Order Status</h3>
+        </div>
+        <div class="status-list">
+          <div class="status-item">
+            <div class="status-dot teal"></div>
+            <div class="status-body">
+              <span>Completed</span>
+              <span class="fw-600">{{ dashboard()?.completedOrders ?? 0 }}</span>
+            </div>
+            <div class="status-bar-bg">
+              <div class="status-bar teal"
+                   [style.width.%]="dashboard()?.totalOrders ? (dashboard()!.completedOrders / dashboard()!.totalOrders) * 100 : 0">
+              </div>
+            </div>
+          </div>
+          <div class="status-item">
+            <div class="status-dot orange"></div>
+            <div class="status-body">
+              <span>Pending</span>
+              <span class="fw-600">{{ dashboard()?.pendingOrders ?? 0 }}</span>
+            </div>
+            <div class="status-bar-bg">
+              <div class="status-bar orange"
+                   [style.width.%]="dashboard()?.totalOrders ? (dashboard()!.pendingOrders / dashboard()!.totalOrders) * 100 : 0">
+              </div>
+            </div>
+          </div>
+          <div class="status-item">
+            <div class="status-dot red"></div>
+            <div class="status-body">
+              <span>Cancelled</span>
+              <span class="fw-600">{{ dashboard()?.cancelledOrders ?? 0 }}</span>
+            </div>
+            <div class="status-bar-bg">
+              <div class="status-bar red"
+                   [style.width.%]="dashboard()?.totalOrders ? (dashboard()!.cancelledOrders / dashboard()!.totalOrders) * 100 : 0">
+              </div>
+            </div>
+          </div>
+          <div class="status-item">
+            <div class="status-dot purple"></div>
+            <div class="status-body">
+              <span>Low Stock Items</span>
+              <span class="fw-600">{{ dashboard()?.lowStockCount ?? 0 }}</span>
+            </div>
+            <div class="status-bar-bg">
+              <div class="status-bar purple"
+                   [style.width.%]="dashboard()?.totalProducts ? (dashboard()!.lowStockCount / dashboard()!.totalProducts) * 100 : 0">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="dp-card">
+      <div class="card-header">
+        <h3 class="card-title">Recent Orders</h3>
+        <a routerLink="/corporate/orders" class="dp-link">View All</a>
+      </div>
+      <div class="dp-table-wrap">
+        <table class="dp-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of recentOrders(); track order.orderId) {
+              <tr>
+                <td class="order-id">#{{ order.orderNumber }}</td>
+                <td class="text-muted">{{ order.orderDate | date:'dd MMM yyyy' }}</td>
+                <td class="fw-600">{{ order.totalAmount | currency:'USD':'symbol':'1.2-2' }}</td>
+                <td><span [class]="badgeClass(order.status)">{{ order.status }}</span></td>
+              </tr>
+            } @empty {
+              <tr><td colspan="4" class="text-muted empty-row">No recent orders</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

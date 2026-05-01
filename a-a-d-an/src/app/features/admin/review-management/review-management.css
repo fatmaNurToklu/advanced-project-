@@ -1,0 +1,133 @@
+.rm-wrapper {
+  padding: 1.5rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.rm-wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 1.2rem;
+}
+
+.review-card {
+  background: #13133a;
+  border: 1px solid #1e1e4a;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 0.8rem;
+  transition: border-color 0.2s;
+}
+
+.review-card:hover {
+  border-color: #7c3aed;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-header strong {
+  color: #e2e8f0;
+  font-size: 0.95rem;
+}
+
+.stars {
+  color: #f4a261;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.review-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.date {
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge[class*="POSITIVE"], .badge:not([class*="NEGATIVE"]):not([class*="NEUTRAL"]) {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.badge[class*="NEGATIVE"] {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.badge[class*="NEUTRAL"] {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+}
+
+.btn-danger-sm {
+  margin-left: auto;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-danger-sm:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.empty {
+  text-align: center;
+  color: #64748b;
+  padding: 3rem;
+  font-size: 0.95rem;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  background: #13133a;
+  border: 1px solid #1e1e4a;
+  color: #94a3b8;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pagination button:hover { border-color: #7c3aed; color: #a78bfa; }
+.pagination button.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
