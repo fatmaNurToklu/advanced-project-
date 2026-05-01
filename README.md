@@ -140,4 +140,24 @@ Uygulama: `http://localhost:4200`
 
 ## Ekran Görüntüleri
 
-> _(eklenecek)_
+<img width="768" height="416" alt="image" src="https://github.com/user-attachments/assets/5dfcc589-fa75-49f8-9354-d4afa08a5f65" />
+<img width="1023" height="552" alt="image" src="https://github.com/user-attachments/assets/cf3f47b4-919d-45d2-b3b6-fc56689975f9" />
+<img width="768" height="417" alt="image" src="https://github.com/user-attachments/assets/13b0de35-1f0d-4287-b9a9-931a804899d0" />
+<img width="768" height="412" alt="image" src="https://github.com/user-attachments/assets/ff3be71c-c5ff-438e-9d3f-533504ef817d" />
+<img width="768" height="413" alt="image" src="https://github.com/user-attachments/assets/70275743-244d-4b6c-81b5-46cfff1a5763" />
+<img width="768" height="414" alt="image" src="https://github.com/user-attachments/assets/20edc535-d4d9-4963-84dd-873368cd7d81" />
+<img width="768" height="414" alt="image" src="https://github.com/user-attachments/assets/b309eb08-f040-44d7-8414-2c4affba109f" />
+<img width="768" height="414" alt="image" src="https://github.com/user-attachments/assets/dd7305e0-4704-4a26-bc51-cfdc4de4fe8d" />
+<img width="1470" height="794" alt="Ekran Resmi 2026-05-01 17 55 58" src="https://github.com/user-attachments/assets/4da83c0c-bbc5-44b5-a6f9-898e52b7dbc1" />
+<img width="1470" height="788" alt="Ekran Resmi 2026-05-01 17 56 13" src="https://github.com/user-attachments/assets/d2894c69-2f5f-4700-af18-e4b50d2d682d" />
+<img width="1470" height="794" alt="Ekran Resmi 2026-05-01 17 57 46" src="https://github.com/user-attachments/assets/8d01443a-bddd-46b0-96fc-c312fa78a9f1" />
+
+
+
+
+
+
+
+
+
+
