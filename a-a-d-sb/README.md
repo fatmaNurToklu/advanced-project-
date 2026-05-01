@@ -9,30 +9,30 @@ Spring Boot ile yazılmış profesyonel **E-Commerce Platform** Analytics Micros
 - ✅ REST API with Swagger/OpenAPI dokümantasyonu
 - ✅ WebSocket gerçek zamanlı bildirimler
 - ✅ Spring Data JPA ORM
-- ✅ MySQL veritabanı desteği
+- ✅ PostgreSQL veritabanı desteği
 - ✅ CORS yapılandırması (Angular/React için)
 - ✅ Global exception handling
 - ✅ Modular yapı (Controller → Service → Repository)
 
 ## Gereksinimler
 
-- Java 17+
+- Java 21
 - Maven 3.6+
-- MySQL 8.0+
+- PostgreSQL 15+
 
 ## Kurulum
 
 ### 1. Projeyi Klonla ve Bağımlılıkları Yükle
 
 ```bash
-cd /Users/fatmanurtoklu/Desktop/a-a-d-sb
+cd a-a-d-sb
 mvn clean install
 ```
 
 ### 2. Veritabanını Oluştur
 
 ```sql
-CREATE DATABASE ecommerce_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE ecommerce_db;
 ```
 
 ### 3. application.properties Dosyasını Yapılandır
@@ -41,8 +41,8 @@ CREATE DATABASE ecommerce_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ```properties
 # Database
-spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce_db
-spring.datasource.username=root
+spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce_db
+spring.datasource.username=postgres
 spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 
@@ -261,7 +261,7 @@ curl -X GET http://localhost:8080/api/users/profile \
 org.hibernate.HibernateException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
 ```
 
-**Çözüm:** MySQL'in çalıştığını ve bağlantı bilgilerinin doğru olduğunu kontrol edin.
+**Çözüm:** PostgreSQL'in çalıştığını ve bağlantı bilgilerinin doğru olduğunu kontrol edin.
 
 ### JWT Token Hatası
 ```
@@ -287,6 +287,6 @@ MIT License
 
 ---
 
-**Yapı:** Spring Boot 3.2.0 | **Java:** 17+ | **Veritabanı:** MySQL 8.0+
+**Yapı:** Spring Boot 3.2.0 | **Java:** 21 | **Veritabanı:** PostgreSQL 15+
 
 📚 [E-COMMERCE-ARCHITECTURE.md](E-COMMERCE-ARCHITECTURE.md) dosyasında detaylı bilgiler bulabilirsiniz.
